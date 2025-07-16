@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>アプリストアへ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 50px;
+      }
+      .logo img {
+        width: 200px;
+      }
+      .loader {
+        margin-top: 20px;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 15px 30px;
+        background: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      <img src="https://www.shimizubank.co.jp/common/img/l_header/logo.png" alt="ロゴ" />
+    </div>
+    <h1>アプリストアへ遷移します</h1>
+    <p>自動で遷移しない場合は、下のボタンをタップしてください。</p>
+    <a id="storeLink" class="button" href="#">アプリを開く</a>
+    <div class="loader">Loading...</div>
+
+    <script>
+      function isIOS() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      }
+
+      var appStoreURL = 'https://apps.apple.com/jp/app/id1436158354'; // ✅ 正しいAppIDに置き換えてください
+      var playStoreURL = 'https://play.google.com/store/apps/details?id=jp.co.shimizubank.kouza.prod';
+
+      var storeURL = isIOS() ? appStoreURL : playStoreURL;
+
+      document.getElementById('storeLink').setAttribute('href', storeURL);
+      window.location.href = storeURL;
+    </script>
+  </body>
+</html>
