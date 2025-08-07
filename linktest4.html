@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>アプリを開く</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .logo img {
+      width: 200px;
+    }
+    .loader {
+      margin-top: 20px;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 15px 30px;
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="https://www.shimizubank.co.jp/common/img/l_header/logo.png" alt="ロゴ" />
+  </div>
+  <h1>アプリを起動します</h1>
+  <p>自動で遷移しない場合は、下のボタンをタップしてください。</p>
+  <a id="openAppBtn" class="button" href="#">アプリを開く</a>
+  <div class="loader">Loading...</div>
+
+  <script>
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // 各リンク
+    const appScheme = 'myapp://home'; // ← カスタムURLスキーム（アプリ側で定義）
+    const iOSStoreURL = 'https://apps.apple.com/jp/app/id1436158354';
+    const androidIntentURL = 'intent://home#Intent;scheme=myapp;package=jp.co.shimizubank.kouza.prod;end';
+    const androidPlayStoreURL = 'https://play.google.com/store/apps/details?id=jp.co.shimizubank.kouza.prod';
+
+    // ボタン押下時の動作
+    document.getElementById('openAppBtn').addEventListener('click', function (e) {
+      e.preventDefault();
+      openApp();
+    });
+
+    // 自動起動（ページ読み込み後）
+    window.onload = function () {
+      setTimeout(() => openApp(), 100);
+    };
+
+    function openApp() {
+      const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+      const isAndroid = /Android/i.test(userAgent);
+
+      if (isIOS) {
+        // iOS: カスタムスキーム使用 → ストアへフォールバック
+        window.location = appScheme;
+        setTimeout(() => {
+          window.location = iOSStoreURL;
+        }, 2000);
+      } else if (isAndroid) {
+        // Android: Intentスキームで開く（自動的にPlayStoreへフォールバック）
+        window.location = androidIntentURL;
+      } else {
+        // その他のOS（PCなど）はストアに飛ばす
+        window.location = androidPlayStoreURL;
+      }
+    }
+  </script>
+</body>
+</html>
