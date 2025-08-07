@@ -63,9 +63,11 @@
       if (isIOS) {
         // iOS: カスタムスキーム使用 → ストアへフォールバック
         window.location = appScheme;
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           window.location = iOSStoreURL;
-        }, 2000);
+        }, 2500);
+
+        window.addEventListener('blur', () => clearTimeout(timeout));
       } else if (isAndroid) {
         // Android: Intentスキームで開く（自動的にPlayStoreへフォールバック）
         window.location = androidIntentURL;
