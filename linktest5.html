@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>アプリを開く</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 50px;
+      }
+      .logo img {
+        width: 200px;
+      }
+      .loader {
+        margin-top: 20px;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 15px 30px;
+        background: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      <img src="https://www.shimizubank.co.jp/common/img/l_header/logo.png" alt="ロゴ" />
+    </div>
+    <h1>アプリを開きます</h1>
+    <p>自動で開かない場合は、下のボタンをタップしてください。</p>
+    <a id="appLink" class="button" href="https://www.shimizubank.co.jp/1smz-appli_test/openstore.html">アプリを開く</a>
+    <div class="loader" style="display: none;">Loading...</div>
+
+    <script>
+      function isIOS() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      }
+
+      var appStoreURL = 'https://apps.apple.com/jp/app/id1436158354'; 
+      var playStoreURL = 'https://play.google.com/store/apps/details?id=jp.co.shimizubank.kouza.prod';
+      var universalLink = 'https://www.shimizubank.co.jp/1smz-appli_test/openstore.html';
+
+      var appLinkElement = document.getElementById('appLink');
+
+      if (isIOS()) {
+        appLinkElement.setAttribute('href', universalLink);
+        // iOSの場合、ユニバーサルリンクが自動で試行される
+        // フォールバック用のタイマーを設定
+        var timeout = setTimeout(function() {
+          // 500ミリ秒後にApp Storeへリダイレクト
+          window.location.href = appStoreURL;
+        }, 500); 
+      } else {
+        // Androidの場合、Google Playストアへ直接リダイレクト
+        appLinkElement.setAttribute('href', playStoreURL);
+        window.location.href = playStoreURL;
+      }
+    </script>
+  </body>
+</html>
